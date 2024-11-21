@@ -19,5 +19,14 @@ class DatabaseSeeder extends Seeder
             'name' => 'ilwa',
             'email' => 'admin@admin.com',
         ]);
+
+        $this->call([
+            CompanySeeder::class,
+            RestaurantSeeder::class,
+            ProductSeeder::class,
+            RecipeSeeder::class,
+            MenuSeeder::class,
+            StepSeeder::class,
+        ]);
     }
 }

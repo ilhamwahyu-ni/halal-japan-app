@@ -16,4 +16,5 @@ class {{ resourcePageClass }} extends {{ baseResourcePageClass }}
             Actions\CreateAction::make(),
         ];
     }
+
 }

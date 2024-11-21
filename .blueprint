@@ -1,0 +1,33 @@
+created:
+    - database/factories/ProductFactory.php
+    - database/factories/CompanyFactory.php
+    - database/factories/RestaurantFactory.php
+    - database/factories/MenuFactory.php
+    - database/factories/RecipeFactory.php
+    - database/factories/StepFactory.php
+    - database/migrations/2024_11_21_044859_create_products_table.php
+    - database/migrations/2024_11_21_044900_create_companies_table.php
+    - database/migrations/2024_11_21_044901_create_restaurants_table.php
+    - database/migrations/2024_11_21_044902_create_menus_table.php
+    - database/migrations/2024_11_21_044903_create_recipes_table.php
+    - database/migrations/2024_11_21_044904_create_steps_table.php
+    - app/Models/Product.php
+    - app/Models/Company.php
+    - app/Models/Restaurant.php
+    - app/Models/Menu.php
+    - app/Models/Recipe.php
+    - app/Models/Step.php
+    - database/seeders/ProductSeeder.php
+    - database/seeders/RestaurantSeeder.php
+    - database/seeders/MenuSeeder.php
+    - database/seeders/RecipeSeeder.php
+    - database/seeders/StepSeeder.php
+    - database/seeders/CompanySeeder.php
+models:
+    User: { name: string, email: string, email_verified_at: 'timestamp nullable default:NULL', password: string, remember_token: 'string:100 nullable default:NULL' }
+    Product: { name: 'string:200', barcode: 'string:200', ingridients: text, allergens: text, image: string, status: 'enum:haram,no-contamination,halal', relationships: { belongsTo: Company } }
+    Company: { name: 'string:200', relationships: { hasMany: Product } }
+    Restaurant: { name: 'string:200', address: 'string:200', city: 'string:200', country: 'string:200', latitude: float, longitude: float, status: 'enum:open,closed', website: string, relationships: { hasMany: Menu } }
+    Menu: { name: 'string:200', description: text, image: string, status: 'enum:active,inactive', ingridients: text, relationships: { belongsTo: Restaurant } }
+    Recipe: { name: 'string:200', description: text, image: string, status: 'enum:active,inactive', video: string, ingridients: text, allergens: text, relationships: { hasMany: Step } }
+    Step: { description: text, image: string, relationships: { belongsTo: Recipe } }
