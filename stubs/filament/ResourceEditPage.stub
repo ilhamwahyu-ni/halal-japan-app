@@ -16,4 +16,10 @@ class {{ resourcePageClass }} extends {{ baseResourcePageClass }}
 {{ actions }}
         ];
     }
+
+    //customize redirect after create
+    public function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
