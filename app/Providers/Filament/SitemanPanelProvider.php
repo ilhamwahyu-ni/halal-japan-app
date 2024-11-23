@@ -24,13 +24,14 @@ class SitemanPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->sidebarCollapsibleOnDesktop()
             ->default()
             ->id('siteman')
             ->path('siteman')
             ->passwordReset()
             ->registration()
             ->emailVerification()
-            ->profile(isSimple: false)
+            ->profile()
             ->login()
             ->colors([
                 'primary' => Color::Amber,
