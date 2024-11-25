@@ -10,6 +10,7 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontFamily;
 use Filament\Support\Enums\FontWeight;
@@ -18,6 +19,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Columns\Layout\Grid;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Storage;
 
 class ProductResource extends Resource
 {
@@ -49,6 +51,7 @@ class ProductResource extends Resource
                             ->required(),
                         Forms\Components\Select::make('company_id')
                             ->searchable()
+                            ->preload()
                             ->relationship('company', 'name')
                             ->required(),
                         Forms\Components\FileUpload::make('image')
@@ -111,6 +114,17 @@ class ProductResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
+                    ->requiresConfirmation()
+                    ->action(function ($record) {
+                        if (Storage::disk('public')->exists($record->image)) {
+                            Storage::disk('public')->delete($record->image);
+                        }
+                        $record->delete();
+                        Notification::make()
+                            ->title('Product Deleted Successfully')
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
