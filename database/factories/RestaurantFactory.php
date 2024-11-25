@@ -22,13 +22,13 @@ class RestaurantFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'address' => $this->faker->regexify('[A-Za-z0-9]{200}'),
+            'address' => $this->faker->address,
             'city' => $this->faker->city(),
             'country' => $this->faker->country(),
             'latitude' => $this->faker->latitude(),
             'longitude' => $this->faker->longitude(),
-            'status' => $this->faker->randomElement(["open","closed"]),
-            'website' => $this->faker->word(),
+            'status' => $this->faker->randomElement(["open", "closed"]),
+            'website' => $this->faker->domainName(),
         ];
     }
 }
