@@ -18,9 +18,9 @@ return new class extends Migration
             $table->text('ingridients');
             $table->text('allergens');
             $table->string('image');
-            $table->enum('status', ["haram","no-contamination","halal"]);
-            $table->foreignId('company_id');
-            $table->timestamps();
+            $table->enum('status', ["haram", "no-contamination", "halal"]);
+            $table->foreignId('company_id')->constrained();
+            $table->timestamps(); 
         });
     }
 
