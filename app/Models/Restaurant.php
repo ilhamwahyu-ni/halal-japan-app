@@ -41,4 +41,9 @@ class Restaurant extends Model
     {
         return $this->hasMany(Menu::class);
     }
+    #add belong to city relationship
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
 }

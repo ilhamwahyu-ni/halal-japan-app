@@ -20,12 +20,15 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
         ]);
         #call all seeders
+
         $this->call([
             CompanySeeder::class,
             ProductSeeder::class,
             MenuSeeder::class,
             StepSeeder::class,
             RecipeSeeder::class,
+            CountrySeeder::class,
+            CitySeeder::class,
         ]);
     }
 }
