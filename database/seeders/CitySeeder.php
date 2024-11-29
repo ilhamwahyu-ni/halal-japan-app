@@ -13,6 +13,6 @@ class CitySeeder extends Seeder
     public function run(): void
     {
         //call city factory from \App\Models\City
-        \App\Models\City::factory()->count(30)->create();
+        \App\Models\City::factory()->count(count: 100)->create();
     }
 }

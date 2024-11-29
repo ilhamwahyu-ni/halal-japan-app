@@ -8,6 +8,8 @@ use App\Models\City;
 use App\Models\Country;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Livewire\Notifications;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -60,6 +62,24 @@ class CityResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
+                    ->requiresConfirmation()
+                    ->action(function (City $record) {
+                        #check if City has restaurants
+                        if ($record->restaurants->isNotEmpty()) {
+                            #make filament notification
+                            Notification::make()
+                                ->title('City has restaurants')
+                                ->danger()
+                                ->send();
+                            return false;
+                        } else {
+                            $record->delete();
+                            Notification::make()
+                                ->title('City deleted successfully')
+                                ->success()
+                                ->send();
+                        }
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
