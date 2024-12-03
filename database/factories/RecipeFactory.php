@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Recipe;
+use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
 
 class RecipeFactory extends Factory
 {
@@ -20,11 +21,12 @@ class RecipeFactory extends Factory
      */
     public function definition(): array
     {
+        $this->faker->addProvider(FakerPicsumImagesProvider::class);
         return [
             'name' => $this->faker->name(),
             'description' => $this->faker->text(),
-            'image' => $this->faker->word(),
-            'status' => $this->faker->randomElement(["active","inactive"]),
+            'image' => $this->faker->imageUrl(width: 300, height: 150,),
+            'status' => $this->faker->randomElement(["active", "inactive"]),
             'video' => $this->faker->word(),
             'ingridients' => $this->faker->text(),
             'allergens' => $this->faker->text(),

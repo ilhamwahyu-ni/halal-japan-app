@@ -21,11 +21,14 @@ class MenuFactory extends Factory
      */
     public function definition(): array
     {
+        #add fake image provider
+        $this->faker->addProvider(new \Smknstd\FakerPicsumImages\FakerPicsumImagesProvider($this->faker));
+
         return [
             'name' => $this->faker->name(),
             'description' => $this->faker->text(),
-            'image' => $this->faker->word(),
-            'status' => $this->faker->randomElement(["active","inactive"]),
+            'image' => $this->faker->imageUrl(300, 150),
+            'status' => $this->faker->randomElement(["active", "inactive"]),
             'ingridients' => $this->faker->text(),
             'restaurant_id' => Restaurant::factory(),
         ];
