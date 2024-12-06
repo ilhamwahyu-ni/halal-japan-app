@@ -6,6 +6,8 @@ use App\Filament\Resources\RecipeResource\Pages;
 use App\Filament\Resources\RecipeResource\RelationManagers;
 use App\Models\Recipe;
 use Filament\Forms;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -26,26 +28,55 @@ class RecipeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(200),
-                Forms\Components\Textarea::make('description')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\FileUpload::make('image')
-                    ->image()
-                    ->required(),
-                Forms\Components\TextInput::make('status')
-                    ->required(),
-                Forms\Components\TextInput::make('video')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('ingridients')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('allergens')
-                    ->required()
-                    ->columnSpanFull(),
+                Forms\Components\Section::make('Basic Information')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(200),
+                        Forms\Components\TextInput::make('video')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Radio::make('status')
+                            ->required()
+                            ->inline()
+                            ->inlineLabel(false)
+                            ->options([
+                                'active' => 'Active',
+                                'inactive' => 'Inactive',
+                            ])
+                            ->default('active'),
+                        Forms\Components\FileUpload::make('image')
+                            ->image()
+                            ->required(),
+                    ]),
+                Forms\Components\Section::make('Description and Allergens')
+                    ->schema([
+                        Forms\Components\RichEditor::make('description')
+                            ->required()
+                            ->columnSpanFull(),
+                        Forms\Components\RichEditor::make('ingridients')
+                            ->required()
+                            ->columnSpanFull(),
+                        Forms\Components\RichEditor::make('allergens')
+                            ->required()
+                            ->columnSpanFull(),
+                    ]),
+                Section::make('Steps')
+                    ->schema([
+                        Repeater::make('steps')
+                            ->relationship() //relasi untuk stepnya sudah pakai laravel jadi gak perlu setting lagi
+                            ->schema([
+                                Forms\Components\RichEditor::make('description')
+                                    ->required()
+                                    ->columnSpanFull(),
+                                Forms\Components\FileUpload::make('image')
+                                    ->image()
+                                    ->required()
+
+                            ])
+                    ])
+
+
             ]);
     }
 
